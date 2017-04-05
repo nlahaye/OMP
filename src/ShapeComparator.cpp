@@ -59,7 +59,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 		{
 			i = it - imFnames.begin();
 			EdgeDetector ed(imFnames[i]);
-			this->edgeDetectors[i] = ed;
+			this->edgeDetectors.assign(i, ed);
 		}
 
 		//#pragma omp for
