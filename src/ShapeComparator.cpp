@@ -27,15 +27,15 @@ arma::mat ShapeComparator::cvImagetoArmaPts(const cv::Mat& img)
 
 	arma::mat ret(pts.size(), 2);
 	
-	#pragma omp parallel shared(ret)
-	{
-		#pragma omp for
+	//#pragma omp parallel shared(ret)
+	//{
+	//	#pragma omp for
 		for(int i = 0; i < pts.size(); ++i)
         	{
 			ret(i,0) = pts[i].first;
 			ret(i,1) = pts[i].second;	
 		}
-	}
+	//}
 
 	return ret;
 }
@@ -61,9 +61,9 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 		}
 	}
 
-	#pragma omp parallel
+	//#pragma omp parallel
 	{
-		#pragma omp for
+	//	#pragma omp for
 		for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
 		{
 	
@@ -90,7 +90,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 				}
 			}
 		}
-	}
+	//}
 }
 
 
