@@ -35,9 +35,9 @@ void ThinPlateSpline::createSpline()
 			int index = 0;
 			int increase = (int)floor((double)this->nShape.n_rows/(double)this->oShape.n_rows);
 		
-			//#pragma omp parallel shared(nNShape)
-			//{
-			//	#pragma omp for
+			#pragma omp parallel shared(nNShape)
+			{
+				#pragma omp for
 				for(int i = 0; i < this->oShape.n_rows; ++i)
 				{
 					//#pragma omp for
@@ -47,7 +47,7 @@ void ThinPlateSpline::createSpline()
 						nNShape(i,j) = this->nShape(index,j);
 					}
 				}
-			//}
+			}
 			this->nShape = nNShape;
 		}
 		else if(this->nShape.n_rows < this->oShape.n_rows && this->nShape.n_rows > 0)
@@ -56,9 +56,9 @@ void ThinPlateSpline::createSpline()
 			int index = 0;
                         int increase = (int)floor((double)this->oShape.n_rows/(double)this->nShape.n_rows);
 			
-			//#pragma omp parallel shared(nOShape)
-                        //{
-			//	#pragma omp for
+			#pragma omp parallel shared(nOShape)
+                        {
+				#pragma omp for
 				for(int i = 0; i < this->nShape.n_rows; ++i)
                         	{
 					//#pragma omp for
@@ -68,7 +68,7 @@ void ThinPlateSpline::createSpline()
 						nOShape(i,j) = this->oShape(index,j);
 					}
                         	}
-			//}
+			}
 			this->oShape = nOShape;
 
 		}
@@ -110,9 +110,9 @@ void ThinPlateSpline::createSpline()
 
 	a /= (nShape.n_rows*nShape.n_rows);
 	
-	#pragma omp parallel shared(gamma, leftMtx)
-	{
-		#pragma omp for
+	//#pragma omp parallel shared(gamma, leftMtx)
+//	{
+//		#pragma omp for
 		for(int i = 0; i < nShape.n_rows; ++i)
 		{
 			gamma(i,  nShape.n_rows-1) = gamma(nShape.n_rows-1, i) = 1.0;
@@ -128,7 +128,7 @@ void ThinPlateSpline::createSpline()
 		}
 	
 
-		#pragma omp for
+//		#pragma omp for
 		for(int i = 0; i < this->nShape.n_cols; ++i)
 		{
 			//#pragma omp for
@@ -138,7 +138,7 @@ void ThinPlateSpline::createSpline()
         			 leftMtx(nShape.n_rows+i, j) = 0.0;
 			}		
 		}
-	}
+//	}
 
 
 
