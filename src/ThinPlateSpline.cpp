@@ -127,7 +127,10 @@ void ThinPlateSpline::createSpline()
 
 		}
 	
-
+	}
+	
+	#pragma omp parallel shared(gamma, leftMtx)
+        {
 		#pragma omp for
 		for(int i = 0; i < this->nShape.n_cols; ++i)
 		{

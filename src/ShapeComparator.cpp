@@ -27,21 +27,26 @@ arma::mat ShapeComparator::cvImagetoArmaPts(const cv::Mat& img)
 
 	arma::mat ret(pts.size(), 2);
 	
-	//#pragma omp parallel shared(ret)
-	//{
-	//	#pragma omp for
+	#pragma omp parallel shared(ret)
+	{
+		#pragma omp for
 		for(int i = 0; i < pts.size(); ++i)
         	{
 			ret(i,0) = pts[i].first;
 			ret(i,1) = pts[i].second;	
 		}
-	//}
+	}
 
 	return ret;
 }
 
 void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 {
+
+	time_t timer;
+	time_t timer2;
+	time(&timer);	
+
 	int i = 0;
 	
 	this->edgeDetectors.clear();
@@ -61,13 +66,13 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 		}
 	}
 
-	//#pragma omp parallel
-	//{
+	#pragma omp parallel
+	{
 	//	#pragma omp for
 		for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
 		{
 	
-	//		 #pragma omp for	
+			 #pragma omp for	
 			for(int j = i; j < this->edgeDetectors.size(); ++j)
 			{
 				try
@@ -90,7 +95,10 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 				}
 			}
 		}
-	//}
+	}
+	time(&timer2)
+	double seconds = difftime(timer2, timer);
+	std::cerr << "TIMING TEST " << seconds;
 }
 
 
