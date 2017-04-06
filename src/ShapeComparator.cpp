@@ -61,12 +61,12 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 		}
 	}
 
-	//#pragma omp for
-	for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
+	#pragma omp parallel
 	{
+		#pragma omp for
+		for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
+		{
 	
-	//	#pragma omp parallel 
-//		{
 	//		 #pragma omp for	
 			for(int j = i; j < this->edgeDetectors.size(); ++j)
 			{
@@ -90,7 +90,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 				}
 			}
 		}
-	//}
+	}
 }
 
 
