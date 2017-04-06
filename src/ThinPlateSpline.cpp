@@ -1,4 +1,4 @@
-//#include <omp.h>
+#include <omp.h>
 #include <cmath>
 #include <stdexcept>
 #include "ThinPlateSpline.hpp"
@@ -35,7 +35,7 @@ void ThinPlateSpline::createSpline()
 			int index = 0;
 			int increase = (int)floor((double)this->nShape.n_rows/(double)this->oShape.n_rows);
 		
-			#pragma omp parallel shared(nNShape, nShape)
+			#pragma omp parallel shared(nNShape)
 			{
 				#pragma omp for
 				for(int i = 0; i < this->oShape.n_rows; ++i)
@@ -56,7 +56,7 @@ void ThinPlateSpline::createSpline()
 			int index = 0;
                         int increase = (int)floor((double)this->oShape.n_rows/(double)this->nShape.n_rows);
 			
-			#pragma omp parallel shared(nOShape, oShape)
+			#pragma omp parallel shared(nOShape)
                         {
 				#pragma omp for
 				for(int i = 0; i < this->nShape.n_rows; ++i)
