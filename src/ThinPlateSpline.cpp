@@ -41,11 +41,11 @@ void ThinPlateSpline::createSpline()
 				for(int i = 0; i < this->oShape.n_rows; ++i)
 				{
 					//#pragma omp for
-					for(int j = 0; j < this->oShape.n_cols; ++j, index+=increase)
+					index = i * increase;
+					for(int j = 0; j < this->oShape.n_cols; ++j)
 					{
 						nNShape(i,j) = this->nShape(index,j);
 					}
-					//index += increase;
 				}
 			}
 			this->nShape = nNShape;
@@ -62,11 +62,11 @@ void ThinPlateSpline::createSpline()
 				for(int i = 0; i < this->nShape.n_rows; ++i)
                         	{
 					//#pragma omp for
+					index = i*increase;
 					for(int j = 0; j < this->oShape.n_cols; ++j)
                         	        {
 						nOShape(i,j) = this->oShape(index,j);
 					}
-					index += increase;
                         	}
 				this->oShape = nOShape;
 			}
