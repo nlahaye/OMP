@@ -68,8 +68,9 @@ void ThinPlateSpline::createSpline()
 						nOShape(i,j) = this->oShape(index,j);
 					}
                         	}
-				this->oShape = nOShape;
 			}
+			this->oShape = nOShape;
+
 		}
 		else
 		{
