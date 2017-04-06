@@ -1,7 +1,5 @@
-#include <omp.h> 
+//#include <omp.h> 
 #include "ShapeComparator.hpp"
-
-#include <string>
 #include <utility>
 #include <vector>
 #include <stdexcept>
@@ -52,21 +50,22 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 
 	this->edgeDetectors.reserve(imFnames.size());
 
-	#pragma omp parallel 
+	#pragma omp parallel for  shared(edgeDetectors, thinPlateSplines)
 	{
-		#pragma omp for
 		for(std::vector<std::string>::iterator it = imFnames.begin(); it < imFnames.end(); ++it)
 		{
 			i = it - imFnames.begin();
 			EdgeDetector ed(imFnames[i]);
 			this->edgeDetectors.assign(i, ed);
 		}
+	}
 
-		//#pragma omp for
-		for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
-		{
-		
-			#pragma omp for	
+	//#pragma omp for
+	for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
+	{
+	
+		#pragma omp parallel for shared(edgeDetectors, thinPlateSplines)
+		{	
 			for(int j = i; j < this->edgeDetectors.size(); ++j)
 			{
 				try

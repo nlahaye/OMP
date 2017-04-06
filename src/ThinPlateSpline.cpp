@@ -35,9 +35,8 @@ void ThinPlateSpline::createSpline()
 			int index = 0;
 			int increase = (int)floor((double)this->nShape.n_rows/(double)this->oShape.n_rows);
 		
-			#pragma omp parallel shared(nNShape)
+			#pragma omp parallel for shared(nNShape)
 			{
-				#pragma omp for
 				for(int i = 0; i < this->oShape.n_rows; ++i)
 				{
 					//#pragma omp for
@@ -56,9 +55,8 @@ void ThinPlateSpline::createSpline()
 			int index = 0;
                         int increase = (int)floor((double)this->oShape.n_rows/(double)this->nShape.n_rows);
 			
-			#pragma omp parallel shared(nOShape)
+			#pragma omp parallel for shared(nOShape)
                         {
-				#pragma omp for
 				for(int i = 0; i < this->nShape.n_rows; ++i)
                         	{
 					//#pragma omp for
