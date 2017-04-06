@@ -50,7 +50,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 
 	this->edgeDetectors.reserve(imFnames.size());
 
-	#pragma omp parallel shared(edgeDetectors, thinPlateSplines)
+	#pragma omp parallel 
 	{
 		 #pragma omp for
 		for(std::vector<std::string>::iterator it = imFnames.begin(); it < imFnames.end(); ++it)
@@ -65,7 +65,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 	for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
 	{
 	
-		#pragma omp parallel shared(edgeDetectors, thinPlateSplines)
+		#pragma omp parallel 
 		{
 			 #pragma omp for	
 			for(int j = i; j < this->edgeDetectors.size(); ++j)
