@@ -3,7 +3,7 @@
 #include <utility>
 #include <vector>
 #include <stdexcept>
-
+#include <ctime>
  
 arma::mat ShapeComparator::cvImagetoArmaPts(const cv::Mat& img)
 {
@@ -96,7 +96,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 			}
 		}
 	}
-	time(&timer2)
+	time(&timer2);
 	double seconds = difftime(timer2, timer);
 	std::cerr << "TIMING TEST " << seconds;
 }
