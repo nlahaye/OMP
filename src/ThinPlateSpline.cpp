@@ -110,9 +110,9 @@ void ThinPlateSpline::createSpline()
 
 	a /= (nShape.n_rows*nShape.n_rows);
 	
-	//#pragma omp parallel shared(gamma, leftMtx)
-//	{
-//		#pragma omp for
+	#pragma omp parallel shared(gamma, leftMtx)
+	{
+		#pragma omp for
 		for(int i = 0; i < nShape.n_rows; ++i)
 		{
 			gamma(i,  nShape.n_rows-1) = gamma(nShape.n_rows-1, i) = 1.0;
@@ -128,7 +128,7 @@ void ThinPlateSpline::createSpline()
 		}
 	
 
-//		#pragma omp for
+		#pragma omp for
 		for(int i = 0; i < this->nShape.n_cols; ++i)
 		{
 			//#pragma omp for
@@ -138,7 +138,7 @@ void ThinPlateSpline::createSpline()
         			 leftMtx(nShape.n_rows+i, j) = 0.0;
 			}		
 		}
-//	}
+	}
 
 
 
