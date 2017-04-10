@@ -37,7 +37,7 @@ void ThinPlateSpline::createSpline()
 		
 			#pragma omp parallel shared(nNShape)
 			{
-				#pragma omp for
+				#pragma omp for schedule(guided)
 				for(int i = 0; i < this->oShape.n_rows; ++i)
 				{
 					//#pragma omp for
@@ -58,7 +58,7 @@ void ThinPlateSpline::createSpline()
 			
 			#pragma omp parallel shared(nOShape)
                         {
-				#pragma omp for
+				#pragma omp for schedule(guided)
 				for(int i = 0; i < this->nShape.n_rows; ++i)
                         	{
 					//#pragma omp for
@@ -112,7 +112,7 @@ void ThinPlateSpline::createSpline()
 	
 	#pragma omp parallel shared(gamma, leftMtx)
 	{
-		#pragma omp for
+		#pragma omp for schedule(guided)
 		for(int i = 0; i < nShape.n_rows; ++i)
 		{
 			gamma(i,  nShape.n_rows-1) = gamma(nShape.n_rows-1, i) = 1.0;
@@ -131,7 +131,7 @@ void ThinPlateSpline::createSpline()
 	
 	#pragma omp parallel shared(gamma, leftMtx)
         {
-		#pragma omp for
+		#pragma omp for schedule(guided)
 		for(int i = 0; i < this->nShape.n_cols; ++i)
 		{
 			//#pragma omp for
@@ -160,7 +160,7 @@ void ThinPlateSpline::calcBendingEnergy(mat& gamma_11)
 	mat be = (w.t() * gamma_11) * w;
 	this->bendingEnergy = be(0,0);
 
-	std::cerr << "BENDING ENERGY " << this->bendingEnergy << "\n\n";
+	std::cerr << "BENDING ENERGY " << this->bendingEnergy << std::flush <<  "\n\n";
 
 }
 

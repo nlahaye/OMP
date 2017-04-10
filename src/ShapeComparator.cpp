@@ -29,7 +29,7 @@ arma::mat ShapeComparator::cvImagetoArmaPts(const cv::Mat& img)
 	
 	#pragma omp parallel shared(ret)
 	{
-		#pragma omp for
+		#pragma omp for schedule(guided)
 		for(int i = 0; i < pts.size(); ++i)
         	{
 			ret(i,0) = pts[i].first;
@@ -57,7 +57,7 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 
 	#pragma omp parallel 
 	{
-		 #pragma omp for
+		 #pragma omp for schedule(guided)
 		for(std::vector<std::string>::iterator it = imFnames.begin(); it < imFnames.end(); ++it)
 		{
 			i = it - imFnames.begin();
@@ -66,13 +66,13 @@ void ShapeComparator::runComparisons(std::vector<std::string>& imFnames)
 		}
 	}
 
-	#pragma omp parallel
+	//#pragma omp for
+	for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
 	{
-	//	#pragma omp for
-		for(i = 0; i < this->edgeDetectors.size() - 1; ++i)
-		{
-	
-			 #pragma omp for	
+		#pragma omp parallel 
+        	{
+		
+        		 #pragma omp for schedule(guided)	
 			for(int j = i; j < this->edgeDetectors.size(); ++j)
 			{
 				try
